@@ -2,13 +2,16 @@ import Nullstack from 'nullstack';
 import './StripePay.scss';
 import Stripe from 'stripe';
 import { loadStripe } from "@stripe/stripe-js";
+import { getCurrentDomain } from './utils';
 let stripePromise = null;
 
 class StripePay extends Nullstack {
 
   message = '';
 
-  static async start({ secrets, server, project }) {
+  static async start(context) {
+    const { secrets, server } = context;
+    const currentDomain = getCurrentDomain(context);
     const stripe = new Stripe(secrets.stripeSecret);
     server.post('/create-checkout-session', async (_req, res) => {
       const session = await stripe.checkout.sessions.create({
@@ -32,8 +35,8 @@ class StripePay extends Nullstack {
           },
         ],
         mode: 'payment',
-        success_url: `http://${project.domain}:5000?success=true`,
-        cancel_url: `http://${project.domain}:5000?canceled=true`,
+        success_url: `${currentDomain}?success=true`,
+        cancel_url: `${currentDomain}?canceled=true`,
       });
       res.json({ id: session.id });
     });
