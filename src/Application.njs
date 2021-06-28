@@ -5,16 +5,10 @@ import Loader from './utils/Loader';
 
 class Application extends Nullstack {
 
-  static async start(context) {
-    await StripePay.start(context);
-  }
-
-  prepare(context) {
-    const { page, project } = context;
+  prepare({ page, project }) {
     page.locale = 'pt-BR';
     page.title = `${project.name} - Pagamentos com Nullstack!`;
     page.description = `${project.name} foi feito com Nullstack`;
-    context.loading = false;
   }
 
   renderHead() {

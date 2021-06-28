@@ -9,37 +9,34 @@ class StripePay extends Nullstack {
 
   message = '';
 
-  static async start(context) {
-    const { secrets, server } = context;
+  static async getCheckoutSession(context) {
     const currentDomain = getCurrentDomain(context);
-    const stripe = new Stripe(secrets.stripeSecret);
-    server.post('/create-checkout-session', async (_req, res) => {
-      const session = await stripe.checkout.sessions.create({
-        payment_method_types: ['card'],
-        line_items: [
-          {
-            price_data: {
-              currency: 'brl',
-              product_data: {
-                name: 'Support GuiDevloper Developments',
-                images: ['https://avatars.githubusercontent.com/u/31557312'],
-              },
-              unit_amount: 100,
+    const stripe = new Stripe(context.secrets.stripeSecret);
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ['card'],
+      line_items: [
+        {
+          price_data: {
+            currency: 'brl',
+            product_data: {
+              name: 'Support GuiDevloper Developments',
+              images: ['https://avatars.githubusercontent.com/u/31557312'],
             },
-            adjustable_quantity: {
-              enabled: true,
-              minimum: 1,
-              maximum: 99
-            },
-            quantity: 1,
+            unit_amount: 100,
           },
-        ],
-        mode: 'payment',
-        success_url: `${currentDomain}?success=true`,
-        cancel_url: `${currentDomain}?canceled=true`,
-      });
-      res.json({ id: session.id });
+          adjustable_quantity: {
+            enabled: true,
+            minimum: 1,
+            maximum: 99
+          },
+          quantity: 1,
+        },
+      ],
+      mode: 'payment',
+      success_url: `${currentDomain}?success=true`,
+      cancel_url: `${currentDomain}?canceled=true`,
     });
+    return session.id;
   }
 
   async hydrate({ settings }) {
@@ -88,22 +85,16 @@ class StripePay extends Nullstack {
     );
   }
 
-  async handleClick(context) {
-    context.loading = true;
-    const response = await fetch("/create-checkout-session", {
-      method: "POST",
-    });
-
-    const session = await response.json();
+  async handleClick() {
+    const sessionId = await this.getCheckoutSession();
 
     // When the customer clicks on the button, redirect them to Checkout.
     const result = await stripePromise.redirectToCheckout({
-      sessionId: session.id,
+      sessionId: sessionId,
     });
-    context.loading = false;
 
     if (result.error) {
-      console.log(result.error.message);
+      this.message = result.error.message;
     }
   }
 
