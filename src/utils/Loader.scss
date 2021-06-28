@@ -1,0 +1,12 @@
+.loading {
+  height: 100vh;
+  width: 100vw;
+  position: fixed;
+  z-index: 50;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgb(63 81 181 / 80%);
+}
