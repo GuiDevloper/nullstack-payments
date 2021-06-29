@@ -1,0 +1,82 @@
+.stripe-elements {
+  width: 30vw;
+  width: 400px;
+  align-self: center;
+  border-radius: 7px;
+  padding: 40px 0;
+
+  input {
+    border-radius: 6px;
+    margin-bottom: 6px;
+    padding: 12px;
+    border: 1px solid rgba(50, 50, 93, 0.1);
+    height: 44px;
+    font-size: 16px;
+    width: 100%;
+    background: white;
+  }
+  
+  .result-message {
+    line-height: 22px;
+    font-size: 16px;
+  }
+  
+  .result-message a {
+    color: rgb(89, 111, 214);
+    font-weight: 600;
+    text-decoration: none;
+  }
+  
+  .hidden {
+    display: none;
+  }
+  
+  .card-error {
+    text-align: left;
+    font-size: 13px;
+    line-height: 17px;
+    margin-top: 12px;
+  }
+  
+  #card-element {
+    border-radius: 4px 4px 0 0 ;
+    padding: 12px;
+    border: 1px solid rgba(50, 50, 93, 0.1);
+    height: 44px;
+    width: 100%;
+    background: white;
+  }
+  
+  #payment-request-button {
+    margin-bottom: 32px;
+  }
+  
+  /* Buttons and links */
+  button {
+    background: #5469d4;
+    color: #ffffff;
+    font-family: Arial, sans-serif;
+    border-radius: 0 0 4px 4px;
+    border: 0;
+    padding: 12px 16px;
+    font-size: 16px;
+    cursor: pointer;
+    display: block;
+    transition: all 0.2s ease;
+    box-shadow: 0px 4px 5.5px 0px rgba(0, 0, 0, 0.07);
+    width: 100%;
+  }
+  button:hover {
+    filter: contrast(115%);
+  }
+  button:disabled {
+    opacity: 0.5;
+    cursor: default;
+  }
+  
+  @media only screen and (max-width: 600px) {
+    form {
+      width: 80vw;
+    }
+  }
+}

@@ -4,8 +4,8 @@ import './Loader.scss';
 
 class Loader extends Nullstack {
 
-  render({ worker }) {
-    if (!worker.fetching) return false;
+  render({ worker, loading }) {
+    if (!worker.fetching && !loading) return false;
 
     return (
       <div class="loading">

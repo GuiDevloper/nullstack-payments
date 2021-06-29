@@ -1,6 +1,7 @@
 import Nullstack from 'nullstack';
 import './Application.scss';
-import StripePay from './StripePay';
+import StripeCheckout from './StripeCheckout';
+import StripeElements from './StripeElements';
 import Loader from './utils/Loader';
 
 class Application extends Nullstack {
@@ -27,7 +28,8 @@ class Application extends Nullstack {
     return (
       <main>
         <Head />
-        <StripePay />
+        <StripeCheckout />
+        <StripeElements />
         <Loader />
       </main>
     )
