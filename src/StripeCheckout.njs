@@ -1,5 +1,5 @@
 import Nullstack from 'nullstack';
-import './StripePay.scss';
+import './StripeCheckout.scss';
 import Stripe from 'stripe';
 import { loadStripe } from "@stripe/stripe-js";
 import { getCurrentDomain } from './utils';
@@ -100,14 +100,14 @@ class StripePay extends Nullstack {
 
   render({ params }) {
     if (params.success) {
-      this.message = ("Order placed! You will receive an email confirmation.");
+      this.message = "Order placed! You will receive an email confirmation.";
     }
     if (params.canceled) {
-      this.message = ("Order canceled, continue to the start.");
+      this.message = "Order canceled, continue to the start.";
     }
 
     return (
-      <div>
+      <div class="stripe-checkout">
         {this.message ? (
           <Message message={this.message} />
         ) : (
