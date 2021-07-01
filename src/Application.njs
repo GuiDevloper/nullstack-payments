@@ -1,8 +1,7 @@
 import Nullstack from 'nullstack';
 import './Application.scss';
-import StripeCheckout from './StripeCheckout';
-import StripeElements from './StripeElements';
-import Loader from './utils/Loader';
+import * as Components from './components';
+import { Loader, Links, ROUTES } from './utils';
 
 class Application extends Nullstack {
 
@@ -24,12 +23,19 @@ class Application extends Nullstack {
     )
   }
 
+  renderComponent({ name, url }) {
+    const Comp = Components[name.split(' ').join('')];
+    return <Comp route={url} />
+  }
+
   render() {
     return (
       <main>
         <Head />
-        <StripeCheckout />
-        <StripeElements />
+        <Links route="/"/>
+        <>
+          {ROUTES.map(R => <Component {...R} />)}
+        </>
         <Loader />
       </main>
     )
