@@ -1,13 +1,12 @@
 .stripe-checkout {
-  section {
-    background: #ffffff;
-    display: flex;
-    flex-direction: column;
-    width: 400px;
-    height: 112px;
-    border-radius: 6px;
-    justify-content: space-between;
-  }
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  width: 400px;
+  height: 112px;
+  border-radius: 6px;
+  justify-content: space-between;
+
   .product {
     display: flex;
   }

@@ -17,3 +17,11 @@ body {
   justify-content: center;
   align-items: center;
 }
+
+@media only screen and (max-width: 600px) {
+  .stripe-checkout,
+  .stripe-elements {
+    width: 90vw !important;
+    margin: 0 5vw;
+  }
+}
