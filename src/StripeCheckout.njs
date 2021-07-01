@@ -10,7 +10,7 @@ class StripePay extends Nullstack {
   message = '';
 
   static async getCheckoutSession(context) {
-    const currentDomain = getCurrentDomain(context);
+    const currentDomain = `${getCurrentDomain(context)}/stripe-checkout`;
     const stripe = new Stripe(context.secrets.stripeSecret);
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
