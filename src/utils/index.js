@@ -1,6 +1,7 @@
 import Links from './Links';
 import Loader from './Loader';
 import { loadStripe } from "@stripe/stripe-js";
+import { ROUTES, STRIPE_KEY } from './enums';
 
 function getCurrentDomain({ environment, project }) {
   if (environment.development) {
@@ -9,14 +10,6 @@ function getCurrentDomain({ environment, project }) {
     return `https://${project.domain}`;
   }
 }
-
-const ROUTES = [
-  { name: 'Stripe Checkout', url: '/stripe-checkout' },
-  { name: 'Stripe Elements', url: '/stripe-elements' }
-];
-
-// Update with your public key
-const STRIPE_KEY = "pk_test_51J6LGjGVLsmwBvfdgiYUGqm4XgklBmbV26FlxTI8HG0Ndi0g3Yu9Kjy8w3IeioRFjb8OTYq6naYjTvAoeZiNphwD005HTNhVkM";
 
 let loadedStripe = null;
 async function getStripe() {
