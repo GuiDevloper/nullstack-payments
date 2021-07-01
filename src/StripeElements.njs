@@ -1,8 +1,7 @@
 import Nullstack from 'nullstack';
 import './StripeElements.scss';
 import Stripe from 'stripe';
-import { loadStripe } from "@stripe/stripe-js";
-let stripePromise = null;
+import { getStripe } from './utils';
 
 class StripeElements extends Nullstack {
 
@@ -12,10 +11,9 @@ class StripeElements extends Nullstack {
   showResult = false;
   paymentId = '';
 
-  async hydrate({ settings }) {
-    stripePromise = await loadStripe(settings.stripePublic);
-    var elements = stripePromise.elements();
-    var style = {
+  async hydrate() {
+    const elements = (await getStripe()).elements();
+    const style = {
       base: {
         color: "#32325d",
         fontFamily: 'Roboto, Arial, sans-serif',
@@ -31,7 +29,7 @@ class StripeElements extends Nullstack {
         iconColor: "#fa755a"
       }
     };
-    var card = elements.create("card", { style });
+    const card = elements.create("card", { style });
     // Stripe injects an iframe into the DOM
     card.mount("#card-element");
     card.on("change", (event) => {
@@ -52,13 +50,10 @@ class StripeElements extends Nullstack {
   // Show the customer the error from Stripe if their card fails to charge
   showError({ errorMessage }) {
     this.cardError = errorMessage;
-    setTimeout(() => {
-      this.cardError = '';
-    }, 4000);
   }
 
   static async getPaymentIntentId({ secrets }) {
-    const stripe = new Stripe(secrets.stripeSecret);
+    const stripe = new Stripe(secrets.stripe);
     // Create a PaymentIntent with the order amount and currency
     const paymentIntent = await stripe.paymentIntents.create({
       amount: 100,
@@ -73,7 +68,7 @@ class StripeElements extends Nullstack {
   async onSubmit(context) {
     context.loading = true;
     const paymentIntentId = await this.getPaymentIntentId();
-    const result = await stripePromise
+    const result = await (await getStripe())
       .confirmCardPayment(paymentIntentId, {
         payment_method: {
           card: this.card
@@ -110,7 +105,11 @@ class StripeElements extends Nullstack {
     return (
       <form class="stripe-elements" onsubmit={this.onSubmit}>
         <div id="card-element"></div>
-        <button type="submit" disabled={this.disabledSubmit}>
+        <button
+          type="submit"
+          disabled={this.disabledSubmit}
+          class="stripe-button"
+        >
           Pagar agora
         </button>
         <p class="card-error" role="alert">

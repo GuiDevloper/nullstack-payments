@@ -1,9 +1,7 @@
 import Nullstack from 'nullstack';
 import './StripeCheckout.scss';
 import Stripe from 'stripe';
-import { loadStripe } from "@stripe/stripe-js";
-import { getCurrentDomain } from './utils';
-let stripePromise = null;
+import { getCurrentDomain, getStripe } from './utils';
 
 class StripePay extends Nullstack {
 
@@ -11,7 +9,7 @@ class StripePay extends Nullstack {
 
   static async getCheckoutSession(context) {
     const currentDomain = `${getCurrentDomain(context)}/stripe-checkout`;
-    const stripe = new Stripe(context.secrets.stripeSecret);
+    const stripe = new Stripe(context.secrets.stripe);
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
       line_items: [
@@ -39,10 +37,6 @@ class StripePay extends Nullstack {
     return session.id;
   }
 
-  async hydrate({ settings }) {
-    stripePromise = await loadStripe(settings.stripePublic);
-  }
-
   renderProductDisplay({ handleClick }) {
     return (
       <section>
@@ -57,7 +51,7 @@ class StripePay extends Nullstack {
           </div>
         </div>
         <button
-          type="button" class="checkout-button" role="link"
+          type="button" class="stripe-button" role="link"
           onclick={handleClick}
         >
           Checkout
@@ -76,7 +70,7 @@ class StripePay extends Nullstack {
       <section>
         <p>{message}</p>
         <button
-          type="button" class="checkout-button" role="link"
+          type="button" class="stripe-button" role="link"
           onclick={this.clearMessage}
         >
           Continue
@@ -89,7 +83,7 @@ class StripePay extends Nullstack {
     const sessionId = await this.getCheckoutSession();
 
     // When the customer clicks on the button, redirect them to Checkout.
-    const result = await stripePromise.redirectToCheckout({
+    const result = await (await getStripe()).redirectToCheckout({
       sessionId: sessionId,
     });
 
