@@ -9,7 +9,7 @@ class StripePay extends Nullstack {
 
   static async getCheckoutSession(context) {
     const currentDomain = `${getCurrentDomain(context)}/stripe-checkout`;
-    const stripe = new Stripe(context.secrets.stripe);
+    const stripe = new Stripe(context.secrets.stripe, { apiVersion: '2020-08-27' });
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
       line_items: [

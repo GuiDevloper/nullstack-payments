@@ -53,7 +53,7 @@ class StripeElements extends Nullstack {
   }
 
   static async getPaymentIntentId({ secrets }) {
-    const stripe = new Stripe(secrets.stripe);
+    const stripe = new Stripe(secrets.stripe, { apiVersion: '2020-08-27' });
     // Create a PaymentIntent with the order amount and currency
     const paymentIntent = await stripe.paymentIntents.create({
       amount: 100,
