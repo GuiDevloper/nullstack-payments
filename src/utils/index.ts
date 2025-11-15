@@ -1,28 +1,22 @@
-import Links from './Links';
-import Loader from './Loader';
-import { loadStripe } from "@stripe/stripe-js";
-import { ROUTES, STRIPE_KEY } from './enums';
+import Links from './Links'
+import Loader from './Loader'
+import { loadStripe } from '@stripe/stripe-js'
+import { ROUTES, STRIPE_KEY } from './enums'
 
 function getCurrentDomain({ environment, project }) {
   if (environment.development) {
-    return `http://${project.domain}:5000`;
+    return `http://${project.domain}:5000`
   } else {
-    return `https://${project.domain}`;
+    return `https://${project.domain}`
   }
 }
 
-let loadedStripe = null;
+let loadedStripe = null
 async function getStripe() {
   if (!loadedStripe) {
-    loadedStripe = await loadStripe(STRIPE_KEY);
+    loadedStripe = await loadStripe(STRIPE_KEY)
   }
-  return loadedStripe;
+  return loadedStripe
 }
 
-export {
-  Links,
-  Loader,
-  getCurrentDomain,
-  ROUTES,
-  getStripe
-};
+export { Links, Loader, getCurrentDomain, ROUTES, getStripe }
