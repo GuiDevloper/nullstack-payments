@@ -1,7 +1,13 @@
-import Nullstack from 'nullstack'
+import Nullstack, {
+  NullstackClientContext,
+  NullstackNode,
+  NullstackServerContext
+} from 'nullstack'
 import './StripeElements.scss'
 import Stripe from 'stripe'
 import { getStripe } from './utils'
+
+declare function ResultMessage(): NullstackNode
 
 class StripeElements extends Nullstack {
   card = null
@@ -40,19 +46,23 @@ class StripeElements extends Nullstack {
   }
 
   // Shows a success message when the payment is complete
-  orderComplete({ paymentIntentId }) {
+  orderComplete({
+    paymentIntentId
+  }: Partial<NullstackClientContext<{ paymentIntentId: string }>>) {
     this.paymentId = paymentIntentId
     this.showResult = true
     this.disabledSubmit = true
   }
 
   // Show the customer the error from Stripe if their card fails to charge
-  showError({ errorMessage }) {
+  showError({ errorMessage }: { errorMessage: string }) {
     this.cardError = errorMessage
   }
 
-  static async getPaymentIntentId({ secrets }) {
-    const stripe = new Stripe(secrets.stripe, { apiVersion: '2020-08-27' })
+  static async getPaymentIntentId(context?: NullstackServerContext) {
+    const stripe = new Stripe(context.secrets.stripe, {
+      apiVersion: '2020-08-27'
+    })
     // Create a PaymentIntent with the order amount and currency
     const paymentIntent = await stripe.paymentIntents.create({
       amount: 100,
@@ -64,9 +74,9 @@ class StripeElements extends Nullstack {
   // Calls stripe.confirmCardPayment
   // If the card requires authentication Stripe shows a pop-up modal to
   // prompt the user to enter authentication details without leaving your page.
-  async onSubmit(context) {
+  async onSubmit(context?: NullstackClientContext) {
     context.loading = true
-    const paymentIntentId = await this.getPaymentIntentId()
+    const paymentIntentId = await StripeElements.getPaymentIntentId()
     const result = await (
       await getStripe()
     ).confirmCardPayment(paymentIntentId, {

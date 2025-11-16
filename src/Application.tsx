@@ -1,10 +1,18 @@
-import Nullstack from 'nullstack'
+import Nullstack, { NullstackClientContext, NullstackNode } from 'nullstack'
 import './Application.scss'
 import * as Components from './components'
-import { Loader, Links, ROUTES } from './utils'
+import { Links, Loader, ROUTES } from './utils'
+
+type LinkProps = {
+  url: string
+  name: string
+}
+
+declare function Head(): NullstackNode
+declare function Component(): NullstackNode
 
 class Application extends Nullstack {
-  prepare({ page, project }) {
+  prepare({ page, project }: NullstackClientContext) {
     page.locale = 'pt-BR'
     page.title = `${project.name} - Pagamentos com Nullstack!`
     page.description = `${project.name} foi feito com Nullstack`
@@ -25,7 +33,7 @@ class Application extends Nullstack {
     )
   }
 
-  renderComponent({ name, url }) {
+  renderComponent({ url, name }: NullstackClientContext<LinkProps>) {
     const Comp = Components[name.split(' ').join('')]
     return <Comp route={url} />
   }

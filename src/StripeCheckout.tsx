@@ -1,12 +1,21 @@
-import Nullstack from 'nullstack'
+import Nullstack, {
+  NullstackClientContext,
+  NullstackNode,
+  NullstackServerContext
+} from 'nullstack'
 import './StripeCheckout.scss'
 import Stripe from 'stripe'
 import { getCurrentDomain, getStripe } from './utils'
 
+declare function Message(c: { message: string }): NullstackNode
+declare function ProductDisplay(c: {
+  handleClick: () => Promise<void>
+}): NullstackNode
+
 class StripePay extends Nullstack {
   message = ''
 
-  static async getCheckoutSession(context) {
+  static async getCheckoutSession(context?: NullstackServerContext) {
     const currentDomain = `${getCurrentDomain(context)}/stripe-checkout`
     const stripe = new Stripe(context.secrets.stripe, {
       apiVersion: '2020-08-27'
@@ -38,7 +47,9 @@ class StripePay extends Nullstack {
     return session.id
   }
 
-  renderProductDisplay({ handleClick }) {
+  renderProductDisplay({
+    handleClick
+  }: NullstackClientContext<{ handleClick: () => Promise<void> }>) {
     return (
       <section>
         <div class="product">
@@ -63,12 +74,12 @@ class StripePay extends Nullstack {
     )
   }
 
-  clearMessage({ router }) {
+  clearMessage({ router }: NullstackClientContext) {
     router.url = '/'
     this.message = ''
   }
 
-  renderMessage({ message }) {
+  renderMessage({ message }: NullstackClientContext<{ message: string }>) {
     return (
       <section>
         <p>{message}</p>
@@ -85,7 +96,7 @@ class StripePay extends Nullstack {
   }
 
   async handleClick() {
-    const sessionId = await this.getCheckoutSession()
+    const sessionId = await StripePay.getCheckoutSession()
 
     // When the customer clicks on the button, redirect them to Checkout.
     const result = await (

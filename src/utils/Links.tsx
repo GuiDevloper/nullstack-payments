@@ -1,9 +1,16 @@
-import Nullstack from 'nullstack'
+import Nullstack, { NullstackClientContext, NullstackNode } from 'nullstack'
 import './Links.scss'
 import { ROUTES } from './index'
 
+type LinkProps = {
+  url: string
+  name: string
+}
+
+declare function Link(c: LinkProps): NullstackNode
+
 class Links extends Nullstack {
-  renderLink({ url, name }) {
+  renderLink({ url, name }: NullstackClientContext<LinkProps>) {
     return <a href={url}> Pay with {name} </a>
   }
 
