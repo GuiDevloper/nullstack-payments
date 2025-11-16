@@ -1,7 +1,7 @@
 import Links from './Links'
 import Loader from './Loader'
 import { loadStripe, Stripe } from '@stripe/stripe-js'
-import { ROUTES, STRIPE_KEY } from './enums'
+import { ROUTES } from './enums'
 import { NullstackServerContext } from 'nullstack'
 
 function getCurrentDomain({
@@ -17,9 +17,9 @@ function getCurrentDomain({
 }
 
 let loadedStripe: Stripe | null = null
-async function getStripe() {
+async function getStripe(stripePublicKey: string) {
   if (!loadedStripe) {
-    loadedStripe = await loadStripe(STRIPE_KEY)
+    loadedStripe = await loadStripe(stripePublicKey)
   }
   return loadedStripe
 }

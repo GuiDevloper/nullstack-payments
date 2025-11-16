@@ -16,8 +16,9 @@ class StripeElements extends Nullstack {
   showResult = false
   paymentId = ''
 
-  async hydrate() {
-    const elements = (await getStripe()).elements()
+  async hydrate(context?: NullstackClientContext) {
+    const stripe = await getStripe(context.settings.stripe)
+    const elements = stripe.elements()
     const style = {
       base: {
         color: '#32325d',
@@ -78,7 +79,7 @@ class StripeElements extends Nullstack {
     context.loading = true
     const paymentIntentId = await StripeElements.getPaymentIntentId()
     const result = await (
-      await getStripe()
+      await getStripe(context.settings.stripe)
     ).confirmCardPayment(paymentIntentId, {
       payment_method: {
         card: this.card

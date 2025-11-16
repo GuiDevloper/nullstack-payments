@@ -8,4 +8,8 @@ declare module 'nullstack' {
     /** Stripe secret_key */
     stripe: string
   }
+  export interface NullstackSettings {
+    /** Stripe public_key */
+    stripe: string
+  }
 }

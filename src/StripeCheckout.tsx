@@ -95,13 +95,12 @@ class StripePay extends Nullstack {
     )
   }
 
-  async handleClick() {
+  async handleClick(context?: NullstackClientContext) {
     const sessionId = await StripePay.getCheckoutSession()
+    const stripe = await getStripe(context.settings.stripe)
 
     // When the customer clicks on the button, redirect them to Checkout.
-    const result = await (
-      await getStripe()
-    ).redirectToCheckout({
+    const result = await stripe.redirectToCheckout({
       sessionId: sessionId
     })
 

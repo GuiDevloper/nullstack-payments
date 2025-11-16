@@ -10,8 +10,6 @@ Install the dependencies:
 
 Update the [**.env.sample**](./.env.sample) file with your info and rename to **.env**.
 
-Update the [**src/utils/enums.js**](./src/utils/enums.js) file with your public keys.
-
 Run the app in development mode:
 
 `npm start`
