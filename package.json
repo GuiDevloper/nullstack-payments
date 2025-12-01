@@ -9,7 +9,8 @@
   },
   "scripts": {
     "start": "npx nullstack start",
-    "build": "npx nullstack build --mode=ssr"
+    "build": "npx nullstack build",
+    "vercel-build": "npm run build && npx nullstack-adapt-vercel"
   },
   "dependencies": {
     "@stripe/stripe-js": "^1.15.1",
