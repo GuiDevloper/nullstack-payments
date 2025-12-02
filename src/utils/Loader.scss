@@ -9,4 +9,13 @@
   justify-content: center;
   align-items: center;
   background: rgb(63 81 181 / 80%);
+  svg {
+    animation: loading 1.5s infinite linear;
+  }
+}
+
+@keyframes loading {
+  100% {
+    transform: rotate(360deg);
+  }
 }

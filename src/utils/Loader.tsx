@@ -8,11 +8,7 @@ class Loader extends Nullstack {
 
     return (
       <div class="loading">
-        <Cog
-          animation="spin"
-          speed="slow"
-          height={50}
-        />
+        <Cog height={50} />
       </div>
     )
   }
