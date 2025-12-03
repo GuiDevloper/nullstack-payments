@@ -5,15 +5,26 @@
   "author": "GuiDevloper",
   "license": "MIT",
   "devDependencies": {
-    "nullstack": "~0.11.0"
+    "nullstack": "0.20.4"
   },
   "scripts": {
     "start": "npx nullstack start",
-    "build": "npx nullstack build --mode=ssr"
+    "build": "npx nullstack build",
+    "vercel-build": "npm run build && npx nullstack-adapt-vercel"
   },
   "dependencies": {
     "@stripe/stripe-js": "^1.15.1",
     "poisonicon": "^0.1.2",
     "stripe": "^8.157.0"
+  },
+  "prettier": {
+    "arrowParens": "avoid",
+    "trailingComma": "none",
+    "singleAttributePerLine": true,
+    "bracketSameLine": false,
+    "tabWidth": 2,
+    "semi": false,
+    "singleQuote": true,
+    "printWidth": 80
   }
 }
