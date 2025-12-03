@@ -1,4 +1,4 @@
 import Nullstack from 'nullstack'
-import Application from './src/Application'
+import Application from '~/Application'
 
 export default Nullstack.start(Application)
