@@ -3,9 +3,9 @@ import Nullstack, {
   NullstackNode,
   NullstackServerContext
 } from 'nullstack'
-import './StripeElements.scss'
 import Stripe from 'stripe'
-import { getStripe } from './utils'
+import { getStripe } from '~/utils'
+import './StripeElements.scss'
 
 declare function ResultMessage(): NullstackNode
 

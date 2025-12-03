@@ -1,6 +1,6 @@
 import { loadStripe, Stripe } from '@stripe/stripe-js'
 import { NullstackServerContext } from 'nullstack'
-export { ROUTES } from './enums'
+export { ROUTES } from '~/utils/enums'
 
 function getCurrentDomain({
   environment,

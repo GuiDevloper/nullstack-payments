@@ -1,5 +1,5 @@
-import StripeCheckout from '../StripeCheckout'
-import StripeElements from '../StripeElements'
+import StripeCheckout from '~/StripeCheckout'
+import StripeElements from '~/StripeElements'
 
 export const ROUTES = [
   {

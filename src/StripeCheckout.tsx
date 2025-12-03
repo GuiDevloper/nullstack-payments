@@ -3,9 +3,9 @@ import Nullstack, {
   NullstackNode,
   NullstackServerContext
 } from 'nullstack'
-import './StripeCheckout.scss'
 import Stripe from 'stripe'
-import { getCurrentDomain, getStripe } from './utils'
+import { getCurrentDomain, getStripe } from '~/utils'
+import './StripeCheckout.scss'
 
 declare function Message(c: { message: string }): NullstackNode
 declare function ProductDisplay(c: {

@@ -1,7 +1,7 @@
 import Nullstack, { NullstackClientContext, NullstackNode } from 'nullstack'
+import LinksAndPages from '~/utils/LinksAndPages'
+import Loading from '~/utils/Loading'
 import './Application.scss'
-import LinksAndPages from './utils/LinksAndPages'
-import Loading from './utils/Loading'
 
 declare function Head(): NullstackNode
 

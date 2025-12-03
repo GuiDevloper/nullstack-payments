@@ -1,6 +1,6 @@
 import Nullstack, { NullstackClientContext, NullstackNode } from 'nullstack'
+import { ROUTES } from '~/utils'
 import './LinksAndPages.scss'
-import { ROUTES } from './index'
 
 type LinkProps = (typeof ROUTES)[number]
 declare function Link(c: LinkProps): NullstackNode
