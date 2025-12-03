@@ -12,7 +12,7 @@ declare function ProductDisplay(c: {
   handleClick: () => Promise<void>
 }): NullstackNode
 
-class StripePay extends Nullstack {
+class StripeCheckout extends Nullstack {
   message = ''
 
   static async getCheckoutSession(context?: NullstackServerContext) {
@@ -47,9 +47,9 @@ class StripePay extends Nullstack {
     return session.id
   }
 
-  renderProductDisplay({
-    handleClick
-  }: NullstackClientContext<{ handleClick: () => Promise<void> }>) {
+  renderProductDisplay(
+    context: NullstackClientContext<{ handleClick: () => Promise<void> }>
+  ) {
     return (
       <section>
         <div class="product">
@@ -66,7 +66,7 @@ class StripePay extends Nullstack {
           type="button"
           class="stripe-button"
           role="link"
-          onclick={handleClick}
+          onclick={context.handleClick}
         >
           Checkout
         </button>
@@ -79,10 +79,10 @@ class StripePay extends Nullstack {
     this.message = ''
   }
 
-  renderMessage({ message }: NullstackClientContext<{ message: string }>) {
+  renderMessage(context: NullstackClientContext<{ message: string }>) {
     return (
       <section>
-        <p>{message}</p>
+        <p>{context.message}</p>
         <button
           type="button"
           class="stripe-button"
@@ -96,7 +96,7 @@ class StripePay extends Nullstack {
   }
 
   async handleClick(context?: NullstackClientContext) {
-    const sessionId = await StripePay.getCheckoutSession()
+    const sessionId = await StripeCheckout.getCheckoutSession()
     const stripe = await getStripe(context.settings.stripe)
 
     // When the customer clicks on the button, redirect them to Checkout.
@@ -109,7 +109,7 @@ class StripePay extends Nullstack {
     }
   }
 
-  render({ params }) {
+  render({ params }: NullstackClientContext) {
     if (params.success) {
       this.message = 'Order placed! You will receive an email confirmation.'
     }
@@ -129,4 +129,4 @@ class StripePay extends Nullstack {
   }
 }
 
-export default StripePay
+export default StripeCheckout

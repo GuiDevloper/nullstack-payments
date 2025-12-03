@@ -1,15 +1,9 @@
 import Nullstack, { NullstackClientContext, NullstackNode } from 'nullstack'
 import './Application.scss'
-import * as Components from './components'
-import { Links, Loader, ROUTES } from './utils'
-
-type LinkProps = {
-  url: string
-  name: string
-}
+import LinksAndPages from './utils/LinksAndPages'
+import Loading from './utils/Loading'
 
 declare function Head(): NullstackNode
-declare function Component(): NullstackNode
 
 class Application extends Nullstack {
   prepare({ page, project }: NullstackClientContext) {
@@ -33,22 +27,12 @@ class Application extends Nullstack {
     )
   }
 
-  renderComponent({ url, name }: NullstackClientContext<LinkProps>) {
-    const Comp = Components[name.split(' ').join('')]
-    return <Comp route={url} />
-  }
-
   render() {
     return (
       <main>
         <Head />
-        <Links route="/" />
-        <>
-          {ROUTES.map(R => (
-            <Component {...R} />
-          ))}
-        </>
-        <Loader />
+        <Loading />
+        <LinksAndPages />
       </main>
     )
   }

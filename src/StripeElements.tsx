@@ -47,17 +47,19 @@ class StripeElements extends Nullstack {
   }
 
   // Shows a success message when the payment is complete
-  orderComplete({
-    paymentIntentId
-  }: Partial<NullstackClientContext<{ paymentIntentId: string }>>) {
-    this.paymentId = paymentIntentId
+  orderComplete(
+    context: Partial<NullstackClientContext> & { paymentIntentId: string }
+  ) {
+    this.paymentId = context.paymentIntentId
     this.showResult = true
     this.disabledSubmit = true
   }
 
   // Show the customer the error from Stripe if their card fails to charge
-  showError({ errorMessage }: { errorMessage: string }) {
-    this.cardError = errorMessage
+  showError(
+    context: Partial<NullstackClientContext> & { errorMessage: string }
+  ) {
+    this.cardError = context.errorMessage
   }
 
   static async getPaymentIntentId(context?: NullstackServerContext) {
@@ -78,9 +80,8 @@ class StripeElements extends Nullstack {
   async onSubmit(context?: NullstackClientContext) {
     context.loading = true
     const paymentIntentId = await StripeElements.getPaymentIntentId()
-    const result = await (
-      await getStripe(context.settings.stripe)
-    ).confirmCardPayment(paymentIntentId, {
+    const stripe = await getStripe(context.settings.stripe)
+    const result = await stripe.confirmCardPayment(paymentIntentId, {
       payment_method: {
         card: this.card
       }
@@ -101,14 +102,18 @@ class StripeElements extends Nullstack {
       : ''
 
     return (
-      <>
-        {this.showResult && (
-          <p class="result-message">
-            Pagamento realizado!
-            <a href={paymentUrl}>Veja aqui</a>
-          </p>
-        )}
-      </>
+      this.showResult && (
+        <p class="result-message">
+          Pagamento realizado!
+          <a
+            href={paymentUrl}
+            target="_blank"
+            class="link"
+          >
+            Veja aqui
+          </a>
+        </p>
+      )
     )
   }
 
@@ -126,12 +131,14 @@ class StripeElements extends Nullstack {
         >
           Pagar agora
         </button>
-        <p
-          class="card-error"
-          role="alert"
-        >
-          {this.cardError}
-        </p>
+        {this.cardError && (
+          <p
+            class="card-error"
+            role="alert"
+          >
+            {this.cardError}
+          </p>
+        )}
         <ResultMessage />
       </form>
     )

@@ -1,8 +1,8 @@
 import Nullstack, { NullstackClientContext } from 'nullstack'
 import Cog from 'poisonicon/cog/stroke'
-import './Loader.scss'
+import './Loading.scss'
 
-class Loader extends Nullstack {
+class Loading extends Nullstack {
   render({ worker, loading }: NullstackClientContext) {
     if (!worker.fetching && !loading) return false
 
@@ -14,4 +14,4 @@ class Loader extends Nullstack {
   }
 }
 
-export default Loader
+export default Loading
